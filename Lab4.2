@@ -1,0 +1,62 @@
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    def isEmpty(self):
+        return self.root is None
+
+    def clear(self):
+        self.root = None
+
+    def search(self, x):
+        return self._search_recursive(self.root, x)
+
+    def _search_recursive(self, node, x):
+        if node is None:
+            return None
+        if node.value == x:
+            return node
+        elif x < node.value:
+            return self._search_recursive(node.left, x)
+        else:
+            return self._search_recursive(node.right, x)
+
+    def insert(self, x):
+        self.root = self._insert_recursive(self.root, x)
+
+    def _insert_recursive(self, node, x):
+        if node is None:
+            return TreeNode(x)
+        if x < node.value:
+            node.left = self._insert_recursive(node.left, x)
+        elif x > node.value:
+            node.right = self._insert_recursive(node.right, x)
+        return node
+
+    def inorder(self):
+        self._inorder_recursive(self.root)
+
+    def _inorder_recursive(self, node):
+        if node:
+            self._inorder_recursive(node.left)
+            print(node.value, end=" ")
+            self._inorder_recursive(node.right)
+
+    # Implement the remaining methods (delete, min, max, sum, avg, height, cost, AVL check, heap check)
+
+# Example usage:
+bst = BinarySearchTree()
+bst.insert("apple")
+bst.insert("banana")
+bst.insert("cherry")
+bst.insert("date")
+bst.insert("fig")
+
+print("Inorder traversal:")
+bst.inorder()
