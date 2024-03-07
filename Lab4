@@ -1,1 +1,106 @@
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    def isEmpty(self):
+        return self.root is None
+
+    def clear(self):
+        self.root = None
+
+    def search(self, x):
+        return self._search_recursive(self.root, x)
+
+    def _search_recursive(self, node, x):
+        if node is None:
+            return None
+        if node.value == x:
+            return node
+        elif x < node.value:
+            return self._search_recursive(node.left, x)
+        else:
+            return self._search_recursive(node.right, x)
+
+    def insert(self, x):
+        self.root = self._insert_recursive(self.root, x)
+
+    def _insert_recursive(self, node, x):
+        if node is None:
+            return TreeNode(x)
+        if x < node.value:
+            node.left = self._insert_recursive(node.left, x)
+        elif x > node.value:
+            node.right = self._insert_recursive(node.right, x)
+        return node
+
+    def breadth(self):
+        # Implement breadth-first traversal (duyệt theo cấp độ)
+        pass
+
+    def preorder(self):
+        self._preorder_recursive(self.root)
+
+    def _preorder_recursive(self, node):
+        if node:
+            print(node.value, end=" ")
+            self._preorder_recursive(node.left)
+            self._preorder_recursive(node.right)
+
+    def inorder(self):
+        self._inorder_recursive(self.root)
+
+    def _inorder_recursive(self, node):
+        if node:
+            self._inorder_recursive(node.left)
+            print(node.value, end=" ")
+            self._inorder_recursive(node.right)
+
+    def postorder(self):
+        self._postorder_recursive(self.root)
+
+    def _postorder_recursive(self, node):
+        if node:
+            self._postorder_recursive(node.left)
+            self._postorder_recursive(node.right)
+            print(node.value, end=" ")
+
+    def count(self):
+        return self._count_recursive(self.root)
+
+    def _count_recursive(self, node):
+        if node is None:
+            return 0
+        return 1 + self._count_recursive(node.left) + self._count_recursive(node.right)
+
+    def height(self):
+        return self._height_recursive(self.root)
+
+    def _height_recursive(self, node):
+        if node is None:
+            return -1
+        left_height = self._height_recursive(node.left)
+        right_height = self._height_recursive(node.right)
+        return max(left_height, right_height) + 1
+
+    # Implement the remaining methods (cost, AVL check, heap check, etc.)
+
+# Ví dụ sử dụng:
+bst = BinarySearchTree()
+bst.insert(10)
+bst.insert(5)
+bst.insert(15)
+bst.insert(3)
+bst.insert(7)
+
+print("Duyệt theo thứ tự trung tự:")
+bst.inorder()
+
+print("\nSố lượng nút trong cây:", bst.count())
+print("Chiều cao của cây:", bst.height())
 
