@@ -88,19 +88,69 @@ class BinarySearchTree:
         right_height = self._height_recursive(node.right)
         return max(left_height, right_height) + 1
 
-    # Implement the remaining methods (cost, AVL check, heap check, etc.)
+def delete(self, x):
+        self.root = self._delete_recursive(self.root, x)
 
-# Ví dụ sử dụng:
-bst = BinarySearchTree()
-bst.insert(10)
-bst.insert(5)
-bst.insert(15)
-bst.insert(3)
-bst.insert(7)
+    def _delete_recursive(self, node, x):
+        if node is None:
+            return None
+        if x < node.value:
+            node.left = self._delete_recursive(node.left, x)
+        elif x > node.value:
+            node.right = self._delete_recursive(node.right, x)
+        else:
+            # Node found, handle deletion
+            if node.left is None:
+                return node.right
+            elif node.right is None:
+                return node.left
+            else:
+                # Node has both left and right children
+                min_right_subtree = self._find_min(node.right)
+                node.value = min_right_subtree.value
+                node.right = self._delete_recursive(node.right, min_right_subtree.value)
+        return node
 
-print("Duyệt theo thứ tự trung tự:")
-bst.inorder()
+    def find_min(self):
+        return self._find_min(self.root)
 
-print("\nSố lượng nút trong cây:", bst.count())
-print("Chiều cao của cây:", bst.height())
+    def _find_min(self, node):
+        while node.left:
+            node = node.left
+        return node
+
+    def find_max(self):
+        return self._find_max(self.root)
+
+    def _find_max(self, node):
+        while node.right:
+            node = node.right
+        return node
+
+    def tree_sum(self):
+        return self._tree_sum_recursive(self.root)
+
+    def _tree_sum_recursive(self, node):
+        if node is None:
+            return 0
+        return node.value + self._tree_sum_recursive(node.left) + self._tree_sum_recursive(node.right)
+
+    def tree_avg(self):
+        count = self.count()
+        if count == 0:
+            return 0
+        return self.tree_sum() / count
+
+    def tree_height(self):
+        return self._tree_height_recursive(self.root)
+
+    def _tree_height_recursive(self, node):
+        if node is None:
+            return -1
+        left_height = self._tree_height_recursive(node.left)
+        right_height = self._tree_height_recursive(node.right)
+        return max(left_height, right_height) + 1
+
+
+
 
